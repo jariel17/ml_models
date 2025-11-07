@@ -1,0 +1,92 @@
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.env
+*.venv
+.DS_Store
+
+# =====================
+# Jupyter Notebooks
+# =====================
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# =====================
+# Data & Models
+# =====================
+data/raw/
+data/processed/
+data/external/
+experiments/
+models/
+*.pkl
+*.h5
+*.joblib
+*.csv
+*.tsv
+*.jsonl
+*.parquet
+*.xlsx
+# Keep sample data files
+!data/sample_*.csv
+
+# =====================
+# MLflow
+# =====================
+mlruns/
+mlflow.db
+
+# =====================
+# DVC
+# =====================
+.dvc/
+*.dvc
+.dvcignore
+.dvc/tmp/
+dvc_storage/
+
+# =====================
+# Logs & Outputs
+# =====================
+logs/
+*.log
+*.out
+*.err
+reports/figures/
+reports/generated/
+
+# =====================
+# IDE & OS Specific
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+Thumbs.db
+.DS_Store
+
+# =====================
+# Test artifacts
+# =====================
+.pytest_cache/
+coverage/
+*.coverage
+htmlcov/
