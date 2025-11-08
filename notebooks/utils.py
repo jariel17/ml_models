@@ -72,7 +72,6 @@ def missingness_auc_summary(df, target_cols, ref_cols, fill_ref_na=None, return_
         return res
     return None
 
-
 def auc_permutation_pvalue(y_true_binary, score, n_permutations=1000, random_state=None):
     """
     Estimate a permutation p-value for the observed AUC.
@@ -97,3 +96,11 @@ def auc_permutation_pvalue(y_true_binary, score, n_permutations=1000, random_sta
     perm_dev = np.abs(perm_aucs - 0.5)
     p_value = (np.sum(perm_dev >= obs_dev) + 1) / (n_permutations + 1)
     return obs_auc, p_value, perm_aucs
+
+def get_top_missing_columns(df, top_n=10):
+    return (
+        df.isnull().sum()
+        .sort_values(ascending=False)
+        .head(top_n)
+        .index
+    )
