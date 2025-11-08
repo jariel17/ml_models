@@ -1,28 +1,28 @@
 import os
 import requests
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 from typing import List, Dict
 
 # --- Configuration for each dataset ---
 DATASETS: List[Dict] = [
     {
-        "name": "us_pictures",
+        "name": "appendicitis_pictures",
         "url": "https://zenodo.org/record/7711412/files/US_Pictures.zip?download=1",
         "type": "zip",
-        "destination": "data/external/us_pictures.zip",
-        "extract_to": "data/raw/us_pictures"
+        "destination": "../external/appendicitis_pictures.zip",
+        "extract_to": "../raw/appendicitis_pictures"
     },
     {
-        "name": "tabular_data",
-        "url": "https://zenodo.org/record/7711412/files/tabular_data.csv?download=1",
+        "name": "appendicitis_tabular_data",
+        "url": "https://zenodo.org/record/7711412/files/app_data.xlsx?download=1",
         "type": "file",
-        "destination": "data/raw/tabular_data.csv"
+        "destination": "../raw/appendicitis_tabular_data.xlsx"
     },
     {
-        "name": "test_set",
-        "url": "https://zenodo.org/record/7711412/files/test_set.csv?download=1",
+        "name": "appendicitis_test_set",
+        "url": "https://zenodo.org/record/7711412/files/test_set_codes.csv?download=1",
         "type": "file",
-        "destination": "data/raw/test_set.csv"
+        "destination": "../raw/appendicitis_test_set.csv"
     }
 ]
 
@@ -42,9 +42,12 @@ def download_file(url, dest_path):
 
 def extract_zip(zip_path, extract_to):
     os.makedirs(extract_to, exist_ok=True)
-    with ZipFile(zip_path, "r") as zip_ref:
-        zip_ref.extractall(extract_to)
-    print(f"[INFO] Extracted to: {extract_to}")
+    try:
+        with ZipFile(zip_path, "r") as zip_ref:
+            zip_ref.extractall(extract_to)
+        print(f"[INFO] Extracted to: {extract_to}")
+    except BadZipFile:
+        print(f"[WARNING] Skipping extraction: {zip_path} is not a valid ZIP file.")
 
 def handle_dataset(config):
     url = config["url"]
