@@ -60,6 +60,7 @@ mlflow.db
 !*.dvc
 .dvc/tmp/
 dvc_storage/
+.dvc/cache/
 
 # =====================
 # Logs & Outputs
