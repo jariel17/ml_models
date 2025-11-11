@@ -104,3 +104,21 @@ def get_top_missing_columns(df, top_n=10):
         .head(top_n)
         .index
     )
+
+def categorize_bmi(bmi):
+    if bmi < 18.5:
+        return 'Underweight'
+    elif bmi < 25:
+        return 'Normal'
+    elif bmi < 30:
+        return 'Overweight'
+    else:
+        return 'Obese'
+    
+def categorize_age(age):
+    if age < 10:
+        return 'Child'
+    elif age < 14:
+        return 'Preteen'
+    else:
+        return 'Teenager'
