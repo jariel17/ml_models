@@ -114,7 +114,15 @@ def categorize_bmi(bmi):
         return 'Overweight'
     else:
         return 'Obese'
-    
+
+def missing_table(dataframe):
+    missing_count = dataframe.isnull().sum()
+    missing_pct = round(100 * missing_count / len(dataframe), 2)
+    missing = pd.concat([missing_count, missing_pct], axis=1)
+    missing.columns = ['missing_count', 'missing_pct']
+    missing = missing.sort_values('missing_pct', ascending=False)
+    return missing
+
 def categorize_age(age):
     if age < 10:
         return 'Child'
