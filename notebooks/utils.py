@@ -105,6 +105,15 @@ def get_top_missing_columns(df, top_n=10):
         .index
     )
 
+
+def missing_table(dataframe):
+    missing_count = dataframe.isnull().sum()
+    missing_pct = round(100 * missing_count / len(dataframe), 2)
+    missing = pd.concat([missing_count, missing_pct], axis=1)
+    missing.columns = ['missing_count', 'missing_pct']
+    missing = missing.sort_values('missing_pct', ascending=False)
+    return missing
+
 def categorize_bmi(bmi):
     if bmi < 18.5:
         return 'Underweight'
@@ -115,14 +124,6 @@ def categorize_bmi(bmi):
     else:
         return 'Obese'
 
-def missing_table(dataframe):
-    missing_count = dataframe.isnull().sum()
-    missing_pct = round(100 * missing_count / len(dataframe), 2)
-    missing = pd.concat([missing_count, missing_pct], axis=1)
-    missing.columns = ['missing_count', 'missing_pct']
-    missing = missing.sort_values('missing_pct', ascending=False)
-    return missing
-
 def categorize_age(age):
     if age < 10:
         return 'Child'
@@ -130,3 +131,54 @@ def categorize_age(age):
         return 'Preteen'
     else:
         return 'Teenager'
+
+def icd9_category(icd9_code):
+
+    # Handle non-numeric codes (E/V codes)
+    if isinstance(icd9_code, str) and icd9_code.upper().startswith('E'):
+        return "External Causes of Injury"
+    elif isinstance(icd9_code, str) and icd9_code.upper().startswith('V'):
+        return "Supplemental Classification"
+
+    # Convert to int for numeric ranges
+    try:
+        code = int(float(icd9_code))
+    except (ValueError, TypeError):
+        return "Unknown Category"
+
+    if 1 <= code <= 139:
+        return "Infectious and Parasitic Diseases"
+    elif 140 <= code <= 239:
+        return "Neoplasms"
+    elif 240 <= code <= 279:
+        return "Endocrine, Nutritional, Metabolic Diseases, and Immunity Disorders"
+    elif 280 <= code <= 289:
+        return "Diseases of the Blood and Blood-forming Organs"
+    elif 290 <= code <= 319:
+        return "Mental Disorders"
+    elif 320 <= code <= 389:
+        return "Nervous System and Sense Organs"
+    elif 390 <= code <= 459:
+        return "Circulatory System"
+    elif 460 <= code <= 519:
+        return "Respiratory System"
+    elif 520 <= code <= 579:
+        return "Digestive System"
+    elif 580 <= code <= 629:
+        return "Genitourinary System"
+    elif 630 <= code <= 679:
+        return "Complications of Pregnancy, Childbirth, and the Puerperium"
+    elif 680 <= code <= 709:
+        return "Skin and Subcutaneous Tissue"
+    elif 710 <= code <= 739:
+        return "Musculoskeletal System and Connective Tissue"
+    elif 740 <= code <= 759:
+        return "Congenital Anomalies"
+    elif 760 <= code <= 779:
+        return "Certain Conditions Originating in the Perinatal Period"
+    elif 780 <= code <= 799:
+        return "Symptoms, Signs, and Ill-Defined Conditions"
+    elif 800 <= code <= 999:
+        return "Injury and Poisoning"
+    else:
+        return "Unknown Category"
